@@ -4,7 +4,7 @@ import { PinktadaItemsController } from './pinktada-items.controller';
 import {MongooseModule} from "@nestjs/mongoose";
 
 @Module({
-  // imports: [MongooseModule.forFeature([])],
+  // imports: [],
   controllers: [PinktadaItemsController],
   providers: [PinktadaItemsService]
 })

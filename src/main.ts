@@ -12,8 +12,9 @@ async function bootstrap() {
         .addTag('cats')
         .build()
 
+    app.setGlobalPrefix('/api');
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, document);
+    SwaggerModule.setup('docs', app, document);
     app.useGlobalPipes(new ValidationPipe());
     await app.listen(4000);
 }
