@@ -7,9 +7,9 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     const config = new DocumentBuilder()
         .setTitle('JS interns')
-        .setDescription('test project')
-        .setVersion('3')
-        .addTag('cats')
+        .setDescription('docs for app')
+        .setVersion('0.0.1')
+        .addTag('Locations')
         .build()
 
     app.setGlobalPrefix('/api');

@@ -1,26 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePinktadaItemDto } from './dto/create-pinktada-item.dto';
-import { UpdatePinktadaItemDto } from './dto/update-pinktada-item.dto';
+import {Injectable} from '@nestjs/common';
+import {CreatePinktadaItemDto} from './dto/create-pinktada-item.dto';
+import {UpdatePinktadaItemDto} from './dto/update-pinktada-item.dto';
+import {InjectModel} from "@nestjs/mongoose";
+import {Item, ItemDocument} from "./items/items.schema";
+import {Model} from "mongoose";
 
 @Injectable()
 export class PinktadaItemsService {
-  create(createPinktadaItemDto: CreatePinktadaItemDto) {
-    return 'This action adds a new pinktadaItem';
-  }
+    constructor(@InjectModel(Item.name) private itemModel: Model<ItemDocument>) {
+    }
 
-  findAll() {
-    return `This action returns all pinktadaItems`;
-  }
+    async create(item: Item): Promise<Item> {
+        const createdItem = new this.itemModel(item)
+        return createdItem
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pinktadaItem`;
-  }
-
-  update(id: number, updatePinktadaItemDto: UpdatePinktadaItemDto) {
-    return `This action updates a #${id} pinktadaItem`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} pinktadaItem`;
-  }
+    async findAll(): Promise<Item[]> {
+        return this.itemModel
+            .find()
+            .limit(10)
+            .exec()
+    }
 }

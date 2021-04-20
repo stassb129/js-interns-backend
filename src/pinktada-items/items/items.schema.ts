@@ -1,34 +1,49 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {Document} from 'mongoose';
 import Listing = Pinktada.Listing;
 import PricingQuote = Pinktada.PricingQuote;
 import Verified = Pinktada.Verified;
 import Location = Pinktada.Location;
 
-export type ItemsDocument = Item & Document;
+export type ItemDocument = Item & Document;
 
 @Schema()
 export class Item {
-    @Prop()
+
+    @Prop({
+        type:{}
+    })
     listing: Listing
 
-    @Prop()
+    @Prop({
+        type:{}
+    })
     listingParamOverrides: any
 
-    @Prop()
+    @Prop({
+        type:{}
+    })
     luxuryInfo: any
 
-    @Prop()
+    @Prop({
+        type:{}
+    })
     pricingQuote: PricingQuote
 
-    @Prop()
+    @Prop({
+        type:{}
+    })
     verified: Verified
 
-    @Prop()
+    @Prop({
+        type:{}
+    })
     verifiedCard: boolean
 
-    @Prop()
+    @Prop({
+        type:{}
+    })
     location: Location
 }
 
-export const ItemSchema = SchemaFactory.createForClass(Item);
+export const ItemSchema = SchemaFactory.createForClass(Item)
