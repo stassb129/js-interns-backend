@@ -204,6 +204,7 @@ declare module Pinktada {
     }
 
     export interface Location {
+        type: "Point";
         lat: number;
         lon: number;
     }

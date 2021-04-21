@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {CreatePinktadaItemDto} from './dto/create-pinktada-item.dto';
+import {ChordsItemsDto} from './dto/chords-items.dto';
 import {UpdatePinktadaItemDto} from './dto/update-pinktada-item.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
@@ -10,14 +10,28 @@ export class PinktadaItemsService {
     constructor(@InjectModel(Item.name) private itemModel: Model<ItemDocument>) {
     }
 
-    async create(item: Item): Promise<Item> {
-        const createdItem = new this.itemModel(item)
-        return createdItem
-    }
 
     async findAll(): Promise<Item[]> {
         return this.itemModel
             .find()
+            .limit(10)
+            .exec()
+    }
+
+    async findByBoxChords(chordsItemsDto: ChordsItemsDto): Promise<Item[]> {
+        return this.itemModel.find(
+            {
+                location:
+                    {
+                        $geoWithin:
+                            {
+                                $box: [
+                                    chordsItemsDto.leftBottomChords, chordsItemsDto.rightTopChords
+                                ]
+                            }
+                    }
+            }
+        )
             .limit(10)
             .exec()
     }
