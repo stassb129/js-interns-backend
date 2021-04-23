@@ -27,7 +27,7 @@ export class PinktadaItemsService {
                             ]
                         }
                     }
-                }
+                }, {location: 1, listing:{name:1}}
             )
             .limit(500)
             .exec();
