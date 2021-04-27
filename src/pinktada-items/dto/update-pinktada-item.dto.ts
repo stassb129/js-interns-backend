@@ -1,4 +1,4 @@
 import { PartialType } from '@nestjs/swagger';
-import { ChordsItemsDto } from './chords-items.dto';
+import { CoordsItemsDto } from './coords-items.dto';
 
-export class UpdatePinktadaItemDto extends PartialType(ChordsItemsDto) {}
+export class UpdatePinktadaItemDto extends PartialType(CoordsItemsDto) {}

@@ -2,6 +2,7 @@ import {Injectable, Inject} from '@nestjs/common';
 import {Repository} from 'typeorm';
 import {User} from './users.entity'
 import {CreateUsersDto} from "./dto/create-users.dto";
+import {arrify} from "ts-loader/dist/utils";
 
 @Injectable()
 export class UsersService {

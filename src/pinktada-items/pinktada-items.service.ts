@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {ChordsItemsDto} from './dto/chords-items.dto';
+import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
 import {Model} from "mongoose";
@@ -17,13 +17,13 @@ export class PinktadaItemsService {
             .exec()
     }
 
-    async findByBoxChords(chordsItemsDto: ChordsItemsDto): Promise<Item[]> {
+    async findByBoxChords(coordsItemsDto: CoordsItemsDto): Promise<Item[]> {
         return this.itemModel
             .find({
                     location: {
                         $geoWithin: {
                             $box: [
-                                chordsItemsDto.leftBottomChords, chordsItemsDto.rightTopChords
+                                coordsItemsDto.leftBottomCoords, coordsItemsDto.rightTopCoords
                             ]
                         }
                     }

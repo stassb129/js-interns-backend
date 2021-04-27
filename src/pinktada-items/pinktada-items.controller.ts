@@ -1,6 +1,6 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
 import {PinktadaItemsService} from './pinktada-items.service';
-import {ChordsItemsDto} from './dto/chords-items.dto';
+import {CoordsItemsDto} from './dto/coords-items.dto';
 import {UpdatePinktadaItemDto} from './dto/update-pinktada-item.dto';
 import {Item} from "./items/items.schema";
 
@@ -15,8 +15,8 @@ export class PinktadaItemsController {
     }
 
     @Post()
-    findByBox(@Body() chords: ChordsItemsDto) {
-        return this.pinktadaItemsService.findByBoxChords(chords);
+    findByBox(@Body() coords: CoordsItemsDto) {
+        return this.pinktadaItemsService.findByBoxChords(coords);
     }
 
 
