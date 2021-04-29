@@ -4,6 +4,7 @@ import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {ValidationPipe} from "@nestjs/common";
 
 async function bootstrap() {
+    const PORT = process.env.PORT || 4002
     const app = await NestFactory.create(AppModule);
     const config = new DocumentBuilder()
         .setTitle('JS interns')
@@ -16,7 +17,7 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
     app.useGlobalPipes(new ValidationPipe());
-    await app.listen(4000);
+    await app.listen(PORT);
 }
 
 bootstrap();

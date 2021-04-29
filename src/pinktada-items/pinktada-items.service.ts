@@ -18,18 +18,20 @@ export class PinktadaItemsService {
     }
 
     async findByBoxChords(coordsItemsDto: CoordsItemsDto): Promise<Item[]> {
-        return this.itemModel
+         return this.itemModel
             .find({
                     location: {
                         $geoWithin: {
                             $box: [
-                                coordsItemsDto.leftBottomCoords, coordsItemsDto.rightTopCoords
+                                coordsItemsDto.leftBottomCoords,
+                                coordsItemsDto.rightTopCoords
                             ]
                         }
                     }
                 }, {location: 1, listing:{name:1}}
             )
+            .lean()
             .limit(500)
-            .exec();
+            // .exec();
     }
 }
