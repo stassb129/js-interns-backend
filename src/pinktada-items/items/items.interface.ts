@@ -1,3 +1,5 @@
+
+
 declare module Pinktada {
 
     export interface Id {
