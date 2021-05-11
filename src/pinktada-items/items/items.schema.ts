@@ -13,7 +13,7 @@ export class Item {
     @Prop({
         type:{}
     })
-    listing: Listing
+  listing: Listing;
 
     @Prop({
         type:{}

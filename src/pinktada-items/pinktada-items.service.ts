@@ -13,12 +13,12 @@ export class PinktadaItemsService {
     async findAll(): Promise<Item[]> {
         return this.itemModel
             .find()
-            .limit(10)
+            .limit(1)
             .exec()
     }
 
     async findByBoxChords(coordsItemsDto: CoordsItemsDto): Promise<Item[]> {
-         return this.itemModel
+        return this.itemModel
             .find({
                     location: {
                         $geoWithin: {
@@ -28,10 +28,10 @@ export class PinktadaItemsService {
                             ]
                         }
                     }
-                }, {location: 1, listing:{name:1}}
+                }, {location: 1, listing: {name: 1}}
             )
             .lean()
             .limit(500)
-            // .exec();
+            .exec();
     }
 }
