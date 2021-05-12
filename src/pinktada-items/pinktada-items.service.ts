@@ -3,21 +3,11 @@ import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
 import {Model} from "mongoose";
-import {Paginate, PaginateQuery, paginate, Paginated} from 'nestjs-paginate';
 
 @Injectable()
 export class PinktadaItemsService {
     constructor(@InjectModel(Item.name) private itemModel: Model<ItemDocument>) {
     }
-
-
-    // async findAll(query: PaginateQuery): Promise<Paginated<Item>> {
-    //     return paginate(query, this.itemModel, {
-    //         sortableColumns: ['id', 'name', 'color'],
-    //         searchableColumns: ['name', 'color'],
-    //         defaultSortBy: [['id', 'DESC']],
-    //     })
-    // }
 
     async findByIds(ids: String[]): Promise<Item[]> {
         return this.itemModel
@@ -63,14 +53,15 @@ export class PinktadaItemsService {
             .exec();
     }
 
-    async findPlacesByBoxChords(coordsItemsDto): Promise<Item[]> {
-        return this.itemModel
+    async findPlacesByBoxChords(query): Promise<Item[]> {
+
+        const res = this.itemModel
             .find({
                     location: {
                         $geoWithin: {
                             $box: [
-                                coordsItemsDto.leftBottomCoords.map(e => Number(e)),
-                                coordsItemsDto.rightTopCoords.map(e => Number(e))
+                                query.leftBottomCoords.map(e => Number(e)),
+                                query.rightTopCoords.map(e => Number(e))
                             ]
                         }
                     }
@@ -86,7 +77,29 @@ export class PinktadaItemsService {
                     }, pricingQuote: {priceString: 1}
                 }
             )
-            .lean()
+
+        if (query.sort.upPrice) {
+            res.sort({
+                pricingQuote: {priceString: 1}
+            })
+        }
+        if (query.sort.downPrice) {
+            res.sort({
+                pricingQuote: {priceString: -1}
+            })
+        }
+        if (query.sort.rate) {
+            res.sort({
+                avgRating: 1
+            })
+        }
+        // if (query.sort.isAvailable) {
+        //     res.sort({
+        //         pricingQuote: {priceString: 1}
+        //     })
+        // }
+
+        return res.lean()
             .limit(500)
             .exec();
     }

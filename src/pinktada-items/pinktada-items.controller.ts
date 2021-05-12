@@ -3,7 +3,7 @@ import {PinktadaItemsService} from './pinktada-items.service';
 import {CoordsItemsDto} from './dto/coords-items.dto';
 import {UpdatePinktadaItemDto} from './dto/update-pinktada-item.dto';
 import {Item} from "./items/items.schema";
-import {PaginateQuery, Paginated, Paginate} from 'nestjs-paginate'
+
 
 @Controller('pinktada-items')
 export class PinktadaItemsController {
@@ -16,16 +16,15 @@ export class PinktadaItemsController {
     // }
 
     @HttpCode(HttpStatus.OK)
-    @Get(':getPlaces')
-    findPlacesByBoxChords(@Query() chords: CoordsItemsDto) {
-        return this.pinktadaItemsService.findPlacesByBoxChords(chords);
-    }
-
-    @HttpCode(HttpStatus.OK)
     @Post()
     findByBox(@Body() coords: CoordsItemsDto) {
         return this.pinktadaItemsService.findByBoxChords(coords);
     }
 
+    @HttpCode(HttpStatus.OK)
+    @Get(':getPlaces')
+    findPlacesByBoxChords(@Query() query) {
+        return this.pinktadaItemsService.findPlacesByBoxChords(query);
+    }
 
 }
