@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, Query} from '@nestjs/common';
 import {PinktadaItemsService} from './pinktada-items.service';
 import {CoordsItemsDto} from './dto/coords-items.dto';
 import {UpdatePinktadaItemDto} from './dto/update-pinktada-item.dto';
@@ -12,6 +12,12 @@ export class PinktadaItemsController {
     @Get()
     findAll() {
         return this.pinktadaItemsService.findAll();
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get(':getPlaces')
+    findPlacesByBoxChords(@Query() chords: CoordsItemsDto) {
+        return this.pinktadaItemsService.findPlacesByBoxChords(chords);
     }
 
     @HttpCode(HttpStatus.OK)
