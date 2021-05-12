@@ -3,6 +3,7 @@ import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
 import {Model} from "mongoose";
+import {Paginate, PaginateQuery, paginate, Paginated} from 'nestjs-paginate';
 
 @Injectable()
 export class PinktadaItemsService {
@@ -10,12 +11,13 @@ export class PinktadaItemsService {
     }
 
 
-    async findAll(): Promise<Item[]> {
-        return this.itemModel
-            .find()
-            .limit(50)
-            .exec()
-    }
+    // async findAll(query: PaginateQuery): Promise<Paginated<Item>> {
+    //     return paginate(query, this.itemModel, {
+    //         sortableColumns: ['id', 'name', 'color'],
+    //         searchableColumns: ['name', 'color'],
+    //         defaultSortBy: [['id', 'DESC']],
+    //     })
+    // }
 
     async findByIds(ids: String[]): Promise<Item[]> {
         return this.itemModel
