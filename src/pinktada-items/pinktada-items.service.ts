@@ -2,8 +2,9 @@ import {Injectable} from '@nestjs/common';
 import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
-import {Model} from "mongoose";
+import {Model, Schema, Types} from "mongoose";
 import {setSortOptions, isEmpty} from './functions/sort'
+import ObjectId from 'mongodb'
 
 
 @Injectable()
@@ -41,9 +42,11 @@ export class PinktadaItemsService {
             .exec()
     }
 
-    async findOneById(): Promise<Item[]> {
+    async findOneById(query): Promise<Item[]> {
         return this.itemModel
-            .find()
+            .find({
+                _id: query.id
+            })
             .limit(1)
             .exec()
     }
@@ -96,7 +99,6 @@ export class PinktadaItemsService {
         if (!isEmpty(sortConf)) {
             res.sort(sortConf)
         }
-
 
         //Pagination
         const page: number = parseInt(query.page as any) || 1
