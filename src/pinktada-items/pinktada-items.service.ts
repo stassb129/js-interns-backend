@@ -3,10 +3,23 @@ import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
 import {Model} from "mongoose";
+import {setSortOptions, isEmpty} from './functions/sort'
+
 
 @Injectable()
 export class PinktadaItemsService {
     constructor(@InjectModel(Item.name) private itemModel: Model<ItemDocument>) {
+    }
+
+    async totalCount() {
+        return await this.itemModel.countDocuments().exec()
+    }
+
+    async findAll(): Promise<Item[]> {
+        return this.itemModel
+            .find({}, {})
+            .limit(20)
+            .exec()
     }
 
     async findByIds(ids: String[]): Promise<Item[]> {
@@ -53,8 +66,7 @@ export class PinktadaItemsService {
             .exec();
     }
 
-    async findPlacesByBoxChords(query): Promise<Item[]> {
-
+    async findPlacesByBoxChords(query) {
         const res = this.itemModel
             .find({
                     location: {
@@ -74,34 +86,59 @@ export class PinktadaItemsService {
                         pictureUrl: 1,
                         reviews: 1,
                         reviewsCount: 1,
-                    }, pricingQuote: {priceString: 1}
+                    }, pricingQuote: {priceString: 1, rate: {amount: 1}}
                 }
             )
 
-        if (query.sort.upPrice) {
-            res.sort({
-                pricingQuote: {priceString: 1}
-            })
-        }
-        if (query.sort.downPrice) {
-            res.sort({
-                pricingQuote: {priceString: -1}
-            })
-        }
-        if (query.sort.rate) {
-            res.sort({
-                avgRating: 1
-            })
-        }
-        // if (query.sort.isAvailable) {
-        //     res.sort({
-        //         pricingQuote: {priceString: 1}
-        //     })
-        // }
+        //Sort
+        const sortConf = setSortOptions(query.sort)
 
-        return res.lean()
-            .limit(500)
-            .exec();
+        if (!isEmpty(sortConf)) {
+            res.sort(sortConf)
+        }
+
+
+        //Pagination
+        const page: number = parseInt(query.page as any) || 1
+        const limit = 10
+        const total = await this.totalCount()
+        const data = await res.skip((page - 1) * limit).limit(limit).exec()
+
+        return {
+            data,
+            total,
+            page,
+            last_page: Math.ceil(total / limit)
+        }
     }
 }
 
+
+function setSortOptions(query) {
+    const sort = JSON.parse(query)
+    const sortUpPrice = {"pricingQuote.rate.amount": 1}
+    const sortDownPrice = {"pricingQuote.rate.amount": -1}
+    const sortUpRate = {"listing.avgRating": 1}
+    let sortOptions = {}
+
+    if (sort.upPrice) {
+        sortOptions = {...sortOptions, ...sortUpPrice}
+    }
+
+    if (sort.downPrice) {
+        sortOptions = {...sortOptions, ...sortDownPrice}
+    }
+
+    if (sort.upRate) {
+        sortOptions = {...sortOptions, ...sortUpRate}
+    }
+
+    return sortOptions
+}
+
+
+function isEmpty(obj) {
+    if (Object.keys(obj).length == 0) {
+        return true
+    } else return false
+}

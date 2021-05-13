@@ -10,10 +10,12 @@ export class PinktadaItemsController {
     constructor(private readonly pinktadaItemsService: PinktadaItemsService) {
     }
 
-    // @Get()
-    // findAll(@Paginate() query: PaginateQuery): Promise<Paginated<Item>> {
-    //     return this.pinktadaItemsService.findAll();
-    // }
+    @HttpCode(HttpStatus.OK)
+    @Get()
+    findAll() {
+        return this.pinktadaItemsService.findAll();
+    }
+
 
     @HttpCode(HttpStatus.OK)
     @Post()
@@ -23,7 +25,7 @@ export class PinktadaItemsController {
 
     @HttpCode(HttpStatus.OK)
     @Get(':getPlaces')
-    findPlacesByBoxChords(@Query() query) {
+    async findPlacesByBoxChords(@Query() query) {
         return this.pinktadaItemsService.findPlacesByBoxChords(query);
     }
 
