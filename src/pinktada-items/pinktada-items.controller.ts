@@ -22,9 +22,10 @@ export class PinktadaItemsController {
     findByBox(@Body() coords: CoordsItemsDto) {
         return this.pinktadaItemsService.findByBoxChords(coords);
     }
+
     //
     @HttpCode(HttpStatus.OK)
-    @Get('findById:findById')
+    @Get('findById/:id')
     async findPlaceById(@Query() id) {
         return this.pinktadaItemsService.findOneById(id);
     }
