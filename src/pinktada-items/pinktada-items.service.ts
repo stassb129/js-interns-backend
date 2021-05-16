@@ -3,8 +3,6 @@ import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
 import {Model, Schema, Types} from "mongoose";
-import {setSortOptions, isEmpty} from './functions/sort'
-import ObjectId from 'mongodb'
 
 
 @Injectable()
