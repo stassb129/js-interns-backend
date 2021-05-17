@@ -3,6 +3,7 @@ import {CoordsItemsDto} from './dto/coords-items.dto';
 import {InjectModel} from "@nestjs/mongoose";
 import {Item, ItemDocument} from "./items/items.schema";
 import {Model, Schema, Types} from "mongoose";
+import {setSortOptions, isEmpty} from './functions/sort';
 
 
 @Injectable()
@@ -111,34 +112,4 @@ export class PinktadaItemsService {
             last_page: Math.ceil(total / limit)
         }
     }
-}
-
-
-function setSortOptions(query) {
-    const sort = JSON.parse(query)
-    const sortUpPrice = {"pricingQuote.rate.amount": 1}
-    const sortDownPrice = {"pricingQuote.rate.amount": -1}
-    const sortUpRate = {"listing.avgRating": 1}
-    let sortOptions = {}
-
-    if (sort.upPrice) {
-        sortOptions = {...sortOptions, ...sortUpPrice}
-    }
-
-    if (sort.downPrice) {
-        sortOptions = {...sortOptions, ...sortDownPrice}
-    }
-
-    if (sort.upRate) {
-        sortOptions = {...sortOptions, ...sortUpRate}
-    }
-
-    return sortOptions
-}
-
-
-function isEmpty(obj) {
-    if (Object.keys(obj).length == 0) {
-        return true
-    } else return false
 }

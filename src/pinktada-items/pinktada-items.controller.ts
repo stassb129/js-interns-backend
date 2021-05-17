@@ -5,14 +5,17 @@ import {UpdatePinktadaItemDto} from './dto/update-pinktada-item.dto';
 import {Item} from "./items/items.schema";
 
 
-@Controller('pinktada-items')
+@Controller('items')
 export class PinktadaItemsController {
     constructor(private readonly pinktadaItemsService: PinktadaItemsService) {
     }
 
     @HttpCode(HttpStatus.OK)
     @Get()
-    findAll() {
+    findAll(@Query() query) {
+        if (Object.keys(query).length) {
+            return this.pinktadaItemsService.findPlacesByBoxChords(query);
+        }
         return this.pinktadaItemsService.findAll();
     }
 
@@ -23,17 +26,10 @@ export class PinktadaItemsController {
         return this.pinktadaItemsService.findByBoxChords(coords);
     }
 
-    //
+
     @HttpCode(HttpStatus.OK)
-    @Get('findById/:id')
-    async findPlaceById(@Query() id) {
+    @Get('/:id')
+    async findPlaceById(@Param() id) {
         return this.pinktadaItemsService.findOneById(id);
     }
-
-    @HttpCode(HttpStatus.OK)
-    @Get(':getPlaces')
-    async findPlacesByBoxChords(@Query() query) {
-        return this.pinktadaItemsService.findPlacesByBoxChords(query);
-    }
-
 }
