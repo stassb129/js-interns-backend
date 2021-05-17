@@ -68,7 +68,7 @@ export class PinktadaItemsService {
             .exec();
     }
 
-    async findPlacesByBoxChords(query) {
+    async findPlacesByBoxCoords(query) {
         const res = this.itemModel
             .find({
                     location: {
@@ -103,7 +103,7 @@ export class PinktadaItemsService {
         const page: number = parseInt(query.page as any) || 1
         const limit = 10
         const total = await this.totalCount()
-        const data = await res.skip((page - 1) * limit).limit(limit).exec()
+        const data = await res.skip((page - 1) * limit).limit(limit).lean().exec()
 
         return {
             data,

@@ -14,7 +14,7 @@ export class PinktadaItemsController {
     @Get()
     findAll(@Query() query) {
         if (Object.keys(query).length) {
-            return this.pinktadaItemsService.findPlacesByBoxChords(query);
+            return this.pinktadaItemsService.findPlacesByBoxCoords(query);
         }
         return this.pinktadaItemsService.findAll();
     }
