@@ -41,12 +41,11 @@ export class PinktadaItemsService {
             .exec()
     }
 
-    async findOneById(query): Promise<Item[]> {
+    async findOneById(query): Promise<Item> {
         return this.itemModel
-            .find({
+            .findOne({
                 _id: query.id
             })
-            .limit(1)
             .exec()
     }
 
