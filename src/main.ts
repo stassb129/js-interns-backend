@@ -15,11 +15,12 @@ async function bootstrap() {
         .addTag('Locations')
         .build()
 
+
     app.setGlobalPrefix('/api');
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
     await app.listen(PORT);
-    console.log("Server has been started...")
+    console.log(`Server has been started on ${PORT}...`)
 }
 
 bootstrap();

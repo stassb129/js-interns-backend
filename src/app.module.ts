@@ -7,6 +7,7 @@ import {UsersModule} from './users/users.module';
 import {MongooseModule} from "@nestjs/mongoose";
 import {PinktadaItemsModule} from './pinktada-items/pinktada-items.module';
 import {ConfigModule} from "@nestjs/config";
+import {PaymentModule} from './payment/payment.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import {ConfigModule} from "@nestjs/config";
         UsersModule,
         PinktadaItemsModule,
         MongooseModule.forRoot('mongodb://mongo:27017/pinktada'),
+        PaymentModule,
     ],
     controllers: [AppController],
     providers: [AppService],
