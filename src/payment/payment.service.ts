@@ -12,7 +12,7 @@ export class PaymentService {
             payment_method: paymentMethod.id,
             amount: paymentMethod.amount,
             currency: 'USD',
-            description: 'Book Hotel from React app',
+            description: paymentMethod.metadata.description,
             confirm: true
         })
 
