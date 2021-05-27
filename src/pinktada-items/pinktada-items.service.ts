@@ -68,8 +68,15 @@ export class PinktadaItemsService {
     }
 
     async findPlacesByBoxCoords(query) {
+
+        const sortJson = JSON.parse(query.sort)
+
         const res = this.itemModel
             .find({
+                    $and: [
+                        {"pricingQuote.rate.amount": {$gte: sortJson.priceRange[0]}},
+                        {"pricingQuote.rate.amount": {$lte: sortJson.priceRange[1]}}
+                    ],
                     location: {
                         $geoWithin: {
                             $box: [
