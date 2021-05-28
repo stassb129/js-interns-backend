@@ -8,11 +8,12 @@ export class PaymentService {
     }
 
     async sendPayment(paymentMethod): Promise<any> {
+        console.log(paymentMethod)
         const payment = await this.stripeClient.paymentIntents.create({
             payment_method: paymentMethod.id,
             amount: paymentMethod.amount,
             currency: 'USD',
-            description: paymentMethod.metadata.description,
+            description: paymentMethod.description,
             confirm: true
         })
 

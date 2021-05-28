@@ -25,9 +25,10 @@ export class AuthService {
         const userData = await this.userService.findOne(user.username)
         return {
             id: userData.id,
-            access_token: this.jwtService.sign({user: user.username})
+            access_token: this.jwtService.sign({id: user.id})
         }
     }
+
 
     async register(createAuthDto: CreateAuthDto) {
         await this.userService.create(createAuthDto)

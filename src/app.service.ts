@@ -1,14 +1,25 @@
 import {Injectable} from '@nestjs/common';
-import {InjectStripe} from "nestjs-stripe";
-import Stripe from 'stripe';
+import {JwtService} from "@nestjs/jwt";
+import {ExtractJwt} from "passport-jwt";
+import {jwtConstants} from "./auth/constants";
 
 @Injectable()
 export class AppService {
-    public constructor(@InjectStripe() private readonly stripeClient: Stripe) {
+    public constructor() {
     }
 
-    getHello(): string {
-        return 'Hello World!';
+    getHello(req): any {
+
+        const token = {
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            key: 'stas'
+        }
+        console.log(token)
+
+        // const id = this.jwtService.verify()
+        return {
+            // id
+        }
     }
-    
+
 }
