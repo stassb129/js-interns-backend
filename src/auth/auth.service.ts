@@ -24,13 +24,16 @@ export class AuthService {
     async login(user: LoginAuthDto) {
         const userData = await this.userService.findOne(user.username)
         return {
-            id: userData.id,
-            access_token: this.jwtService.sign({id: user.id})
+            access_token: this.jwtService.sign({id: userData.id})
         }
     }
 
-
     async register(createAuthDto: CreateAuthDto) {
         await this.userService.create(createAuthDto)
+    }
+
+    verify(auth: string): { uuid: string } {
+        const jwt = auth.replace('Bearer ', '')
+        return this.jwtService.verify(jwt) as { uuid: string }
     }
 }

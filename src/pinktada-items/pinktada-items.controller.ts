@@ -12,7 +12,7 @@ export class PinktadaItemsController {
 
     @HttpCode(HttpStatus.OK)
     @Get()
-    findAll(@Query() query) {
+    findPlaces(@Query() query) {
         if (Object.keys(query).length) {
             return this.pinktadaItemsService.findPlacesByBoxCoords(query);
         }
@@ -23,7 +23,7 @@ export class PinktadaItemsController {
     @HttpCode(HttpStatus.OK)
     @Post()
     findByBox(@Body() coords: CoordsItemsDto) {
-        return this.pinktadaItemsService.findByBoxChords(coords);
+        return this.pinktadaItemsService.findByBoxCoords(coords);
     }
 
 

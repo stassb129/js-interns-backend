@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Request, UseGuards} from '@nestjs/common';
+import {Headers, Controller, Get, UseGuards} from '@nestjs/common';
 import {AppService} from './app.service';
 import {JwtAuthGuard} from "./auth/guards/jwt-auth.guard";
 
@@ -14,8 +14,8 @@ export class AppController {
 
     @UseGuards(JwtAuthGuard)
     @Get('/profile')
-    getProfile(@Request() req) {
-        return this.appService.getHello(req);
+    async getProfile(@Headers('Authorization') auth: string): Promise<any> {
+        return this.appService.getHello(auth);
     }
 
 }

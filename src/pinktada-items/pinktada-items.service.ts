@@ -22,25 +22,6 @@ export class PinktadaItemsService {
             .exec()
     }
 
-    async findByIds(ids: String[]): Promise<Item[]> {
-        return this.itemModel
-            .find({
-                _id: {$in: ids}
-            }, {
-                listing: {
-                    name: 1,
-                    avgRating: 1,
-                    kickerContent: {messages: 1},
-                    pictureUrl: 1,
-                    reviews: 1,
-                    reviewsCount: 1,
-                    pricingQuote: {priceString: 1}
-                }
-            })
-            .limit(20)
-            .exec()
-    }
-
     async findOneById(query): Promise<Item> {
         return this.itemModel
             .findOne({
@@ -49,7 +30,7 @@ export class PinktadaItemsService {
             .exec()
     }
 
-    async findByBoxChords(coordsItemsDto: CoordsItemsDto): Promise<Item[]> {
+    async findByBoxCoords(coordsItemsDto: CoordsItemsDto): Promise<Item[]> {
         return this.itemModel
             .find({
                     location: {

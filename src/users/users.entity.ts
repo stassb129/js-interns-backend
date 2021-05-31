@@ -1,5 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, BeforeInsert} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, BeforeInsert, OneToMany} from 'typeorm';
 import {createHmac} from "crypto";
+import {Booked} from "../booked/booked.entity";
 
 @Entity()
 export class User {
@@ -17,5 +18,9 @@ export class User {
     hashPassword() {
         this.password = createHmac('sha256', this.password).digest('hex');
     }
+
+    @OneToMany(() => Booked, (post: Booked) => post.author)
+    public bookeds: Booked[];
+
 
 }

@@ -8,7 +8,10 @@ import {MongooseModule} from "@nestjs/mongoose";
 import {PinktadaItemsModule} from './pinktada-items/pinktada-items.module';
 import {ConfigModule} from "@nestjs/config";
 import {PaymentModule} from './payment/payment.module';
-
+import {AuthService} from "./auth/auth.service";
+import {JwtModule} from "@nestjs/jwt";
+import {jwtConstants} from "./auth/constants";
+import { BookedModule } from './booked/booked.module';
 
 @Module({
     imports: [
@@ -21,9 +24,10 @@ import {PaymentModule} from './payment/payment.module';
         PinktadaItemsModule,
         MongooseModule.forRoot('mongodb://mongo:27017/pinktada'),
         PaymentModule,
+        BookedModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, AuthService],
 })
 export class AppModule {
 }
