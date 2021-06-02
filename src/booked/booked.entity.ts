@@ -7,7 +7,7 @@ export class Booked {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({length: 500, unique: true})
+    @Column()
     checkIn: string;
 
     @Column()
